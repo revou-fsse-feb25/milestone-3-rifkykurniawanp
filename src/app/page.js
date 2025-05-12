@@ -9,6 +9,8 @@ export default function Home() {
   const [product, setProduct] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(0);
+  // const [isRouterReady, setIsRouterReady] = useState(false);  
 
   const fetchDataProduct = async () => {
     try {
@@ -29,6 +31,12 @@ export default function Home() {
   useEffect(() => {
     fetchDataProduct();
   }, [])
+
+  // useEffect(() => {
+  //   if (Router.isReady) { setIsRouterReady(true); } 
+  // }, []);
+
+
   console.log(product)
   if (loading) {
     return <p className="animate-spin rounded-full h-16 w-16 border-t-4 border-green-500 absolute top-1/2 left-1/2">Loading...</p>;
@@ -41,7 +49,7 @@ export default function Home() {
           <main className="flex flex-row flex-wrap gap-2 justify-center items-center min-h-screen p-[8rem] ">
             {product.map ((item, index) => (
                           <section key={index} className="flex flex-col w-[25rem] bg-amber-50 rounded-3xl min-h-[50rem]">
-                          <img src = {item?.images?.[0]} className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500"/>
+                          <img src = {item?.images?.[0]} className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500" onClick={() => window.location.href = `/product/${item?.id}`}/>
                           <div className="p-5">
                               <h1 className="text-lg font-bold">{item?.title}</h1>
                               <h3 className="text-xl font-bold">{item?.price}$</h3>
@@ -56,7 +64,7 @@ export default function Home() {
                                         <div className="w-4 h-4 bg-green-500 rounded-full cursor-pointer border-2 border-white hover:border-gray-400"></div>
                                       </div>
                                   </div>
-                                  <button className="flex flex-col justify-center items-center p-1 rounded-lg text-center w-[4rem] bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105" onClick={() => alert("Product added to cart")}>Buy</button>
+                                  <button className="flex flex-col justify-center items-center p-1 rounded-lg text-center w-[4rem] bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105" onClick={() => setCount(count + 1, alert("Item added to cart, you have " + count + " items"))}>Buy</button>
                               </div>
                           </div>
                       </section>
