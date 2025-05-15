@@ -10,7 +10,17 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [count, setCount] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   // const [isRouterReady, setIsRouterReady] = useState(false);  
+
+  const getLocalStorage = () => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    console.log(isLoggedIn);
+    if (isLoggedIn === "true") {
+      setIsLoggedIn(true);
+      console.log("sudah login");
+    }
+  };
 
   const fetchDataProduct = async () => {
     try {
@@ -29,6 +39,7 @@ export default function Home() {
     }
   }
   useEffect(() => {
+    getLocalStorage();
     fetchDataProduct();
   }, [])
 
@@ -44,12 +55,12 @@ export default function Home() {
 
   return (
     <div className="bg-brown-600 color-scheme: dark">
-         <Header/>
+         <Header isLogin={isLoggedIn}/>
 
           <main className="flex flex-row flex-wrap gap-2 justify-center items-center min-h-screen p-[8rem] ">
             {product.map ((item, index) => (
                           <section key={index} className="flex flex-col w-[25rem] bg-amber-50 rounded-3xl min-h-[50rem]">
-                          <img src = {item?.images?.[0]} className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500" onClick={() => window.location.href = `/product/${item?.id}`}/>
+                          <img src = {item?.images?.[0]} className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500" onClick={() => window.location.href = `/description/${item?.id}`}/>
                           <div className="p-5">
                               <h1 className="text-lg font-bold">{item?.title}</h1>
                               <h3 className="text-xl font-bold">{item?.price}$</h3>
