@@ -3,6 +3,7 @@ import React ,{ useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/header/header";
 import LoginPage from "./login/page";
+import { Faculty_Glyphic } from "next/font/google";
 
 
 export default function Home() {
@@ -54,12 +55,12 @@ export default function Home() {
   }
 
   return (
-    <div className="bg-brown-600 color-scheme: dark">
+    <div className="bg-amber-100">
          <Header isLogin={isLoggedIn}/>
 
           <main className="flex flex-row flex-wrap gap-2 justify-center items-center min-h-screen p-[8rem] ">
             {product.map ((item, index) => (
-                          <section key={index} className="flex flex-col w-[25rem] bg-amber-50 rounded-3xl min-h-[50rem]">
+                          <section key={index} className="flex flex-col w-[25rem] bg-white shadow-50 rounded-3xl min-h-[50rem] text-black">
                           <img src = {item?.images?.[0]} className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500" onClick={() => window.location.href = `/description/${item?.id}`}/>
                           <div className="p-5">
                               <h1 className="text-lg font-bold">{item?.title}</h1>
@@ -67,13 +68,9 @@ export default function Home() {
                               <p className="my-3 text-justify">{item?.description}</p>
                               <div className="flex flex-row justify-between">
                                   <div>
-                                      <p className="font-bold">colors</p>
-                                      <div className="flex gap-2">
-                                        <div className="w-4 h-4 bg-blue-500 rounded-full cursor-pointer border-3 border-white hover:border-gray-400"></div>
-                                        <div className="w-4 h-4 bg-red-500 rounded-full cursor-pointer border-2 border-white hover:border-gray-400"></div>
-                                        <div className="w-4 h-4 bg-yellow-400 rounded-full cursor-pointer border-2 border-white hover:border-gray-400"></div>
-                                        <div className="w-4 h-4 bg-green-500 rounded-full cursor-pointer border-2 border-white hover:border-gray-400"></div>
-                                      </div>
+                                      <h3 className="text-lg font-bold">Stock</h3>
+                                      <p className="text-lg">{item?.stock}</p>
+
                                   </div>
                                   <button className="flex flex-col justify-center items-center p-1 rounded-lg text-center w-[4rem] bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105" onClick={() => setCount(count + 1, alert("Item added to cart, you have " + count + " items"))}>Buy</button>
                               </div>
