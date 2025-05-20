@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/header/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,6 +26,8 @@ export default function RootLayout({ children }) {
         {/* <div className="bg-a">
           <h1 className="text-4xl font-bold text-center p-5">Revo shop</h1>
         </div> */}
+
+        <Header/>
 
 
         {children}

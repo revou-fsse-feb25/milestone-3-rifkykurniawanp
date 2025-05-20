@@ -14,10 +14,14 @@ const Header = ({isLogin,children}) => {
        <Image src={Revou} alt="logo" width={100} height={100}></Image>
         {/* <Image/> */}
 
-        <Title/>
+      <div className="sticky top-0 z-50">
+            <h1 className="text-4xl font-bold text-center p-5 bg-a text-black">Revo shop</h1>
+      </div>
         
-        {isLogin ? <LogoutButton/> : <LoginButton/>}
-        
+      <div className="flex gap-2">
+            {/* <button><LogoutButton/></button> */}
+            <button ><a href="/">Home</a></button>
+     </div>
         
        </header>  
        {children}
