@@ -1,7 +1,6 @@
 'use client'
 import React ,{ useState, useEffect } from "react";
 import Link from "next/link";
-import Header from "@/components/header/header";
 import LoginPage from "./login/page";
 import { Faculty_Glyphic } from "next/font/google";
 
@@ -56,7 +55,7 @@ export default function Home() {
 
   return (
     <div className="bg-amber-100">
-         <Header isLogin={isLoggedIn}/>
+         {/* <Header isLogin={isLoggedIn}/> */}
 
           <main className="flex flex-row flex-wrap gap-2 justify-center items-center min-h-screen p-[8rem] ">
             {product.map ((item, index) => (

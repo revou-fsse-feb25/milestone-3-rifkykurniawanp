@@ -1,5 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import React from "react";
+import Image from "next/image";
+import LoginButton from "./login/loginbutton";
+import LogoutButton from "./login/logoutbutton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,12 +23,30 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+
+      <header className="flex justify-between items-center bg-gray-200 p-2 sticky top-0">
+       <Image src="/logo.png" alt="logo" width={100} height={100}></Image>
+        {/* <Image/> */}
+
+
+        <div className="sticky top-0 z-50">
+            <h1 className="text-4xl font-bold text-center p-5 bg-a text-yellow-500">Revo shop</h1>
+        </div>
+        
+       <div className="flex gap-2">
+            <a href="/" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Home</a>
+            <LoginButton />
+            <LogoutButton />
+
+       </div>
+        
+        
+      </header> 
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <div className="bg-a">
-          <h1 className="text-4xl font-bold text-center p-5">Revo shop</h1>
-        </div> */}
+        
 
 
         {children}
