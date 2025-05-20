@@ -71,7 +71,7 @@ export default function Home() {
                                       <p className="text-lg">{item?.stock}</p>
 
                                   </div>
-                                  <button className="flex flex-col justify-center items-center p-1 rounded-lg text-center w-[4rem] bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105" onClick={() => setCount(count + 1, alert("Item added to cart, you have " + count + " items"))}>Buy</button>
+                                  <button className="flex flex-col justify-center items-center p-1 rounded-lg text-center w-[4rem] bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105" onClick={() => window.location.href = `/description/${item?.id}`}>Detail</button>
                               </div>
                           </div>
 

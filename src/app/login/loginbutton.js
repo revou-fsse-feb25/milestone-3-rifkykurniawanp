@@ -2,24 +2,36 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-export default function LoginButton () {
+import { useEffect, useState } from "react";
 
+
+export default function LoginButton () {
     const router = useRouter();
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+
+
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem("isLoggedIn");
+        console.log(isLoggedIn);
+        if (isLoggedIn === "true") {
+            setIsLoggedIn(true);
+            console.log("sudah login");
+        }
+    }, []);   
+
     const handleClick = () => {
-        if (isLoggedIn) {
+        if (isLoggedIn === "true") {
             router.push("/dashboard");
-            alert("You are already logged in");
         } else {
             router.push("/login");
-            alert("You are not logged in");
         }
-    }
+    };
+       
 
     return (
 
         <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer" onClick={handleClick}>Login</button>
-
 
         //  <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer" onClick={() => {isLoggedIn ? router.push("/dashboard") : router.push("/login")}}>Login</button>
     );

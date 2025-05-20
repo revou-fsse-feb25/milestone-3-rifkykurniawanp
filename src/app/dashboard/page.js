@@ -1,13 +1,25 @@
-import Link from "next/link";
+"use client";
 
-export default function DashboardPage() {
-    return (
-        <div className="bg-a h-screen flex flex-col justify-center items-center">
-            <header>WELCOME TO DASHBOARD</header>
-            <main>
-                <h1>This is dashboard page</h1>
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-            </main>
-        </div>
-    );
+
+export default function Dashboard({ isLoggedIn }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      alert('Anda belum login');
+      router.push('/login'); // Redirect ke halaman login
+    }
+  }, [isLoggedIn, router]);
+
+  if (!isLoggedIn) return null; // Jangan render isi dashboard jika belum login
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h1>Dashboard</h1>
+      <p>Selamat datang!</p>
+    </div>
+  );
 }
