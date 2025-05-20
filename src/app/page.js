@@ -75,6 +75,12 @@ export default function Home() {
                                   <button className="flex flex-col justify-center items-center p-1 rounded-lg text-center w-[4rem] bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105" onClick={() => setCount(count + 1, alert("Item added to cart, you have " + count + " items"))}>Buy</button>
                               </div>
                           </div>
+
+
+
+
+
+                          {/* tambahan bungg */}
                       </section>
             ))}
           </main>
