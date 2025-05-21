@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import LoginButton from "../app/login/loginbutton";
 import LogoutButton from "../app/login/logoutbutton";
+import { useRouter } from "next/navigation";
 
 
 const Header = () => {
@@ -18,7 +19,7 @@ const Header = () => {
         
        <div className="flex gap-2">
             <a href="/" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Home</a>
-            <LoginButton />
+            <LoginButton/>
             <LogoutButton />
 
        </div>

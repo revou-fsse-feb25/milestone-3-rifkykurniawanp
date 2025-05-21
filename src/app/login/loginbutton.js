@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
-export default function LoginButton () {
+const LoginButton = () => {
     const router = useRouter();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -36,3 +36,5 @@ export default function LoginButton () {
         //  <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer" onClick={() => {isLoggedIn ? router.push("/dashboard") : router.push("/login")}}>Login</button>
     );
 };
+
+export default LoginButton;

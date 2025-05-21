@@ -7,14 +7,14 @@ import { useRouter } from 'next/navigation';
 export default function Dashboard({ isLoggedIn }) {
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      alert('Anda belum login');
-      router.push('/login'); // Redirect ke halaman login
-    }
-  }, [isLoggedIn, router]);
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     alert('Anda belum login');
+  //     router.push('/login'); // Redirect ke halaman login
+  //   }
+  // }, [isLoggedIn, router]);
 
-  if (!isLoggedIn) return null; // Jangan render isi dashboard jika belum login
+  // if (!isLoggedIn) return null; // Jangan render isi dashboard jika belum login
 
   return (
     <div style={{ padding: '2rem' }}>
