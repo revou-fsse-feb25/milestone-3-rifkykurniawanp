@@ -3,7 +3,6 @@ import React from "react";
 import Image from "next/image";
 import LoginButton from "../app/login/loginbutton";
 import LogoutButton from "../app/login/logoutbutton";
-import { useRouter } from "next/navigation";
 
 
 const Header = () => {
