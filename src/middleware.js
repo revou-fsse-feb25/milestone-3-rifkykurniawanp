@@ -36,7 +36,7 @@ export default function middleware(request) {
   const isPublicPath =
     publicPaths.includes(path) ||
     path.startsWith("/api/auth") ||
-    path.startsWith("/anime") ||
+    // path.startsWith("/anime") ||
     path === "/";
 
   // Check if user is trying to access a protected route without authentication

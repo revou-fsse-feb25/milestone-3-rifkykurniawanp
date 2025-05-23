@@ -33,7 +33,7 @@ const LoginButton = () => {
     return (
 
         <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer" onClick={handleClick}>Login</button>
-
+            
         //  <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 hover:cursor-pointer" onClick={() => {isLoggedIn ? router.push("/dashboard") : router.push("/login")}}>Login</button>
     );
 };
