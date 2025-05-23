@@ -1,9 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import Image from "next/image";
-import LoginButton from "../app/login/loginbutton";
-import LogoutButton from "../app/login/logoutbutton";
-import AboutPage from "@/app/about/page";
+import Navigation from "./navigation";
 
 
 const Header = () => {
@@ -20,9 +18,8 @@ const Header = () => {
         
        <div className="flex gap-2">
 
-            <Link href={"/about"} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">About</Link>
-            <LoginButton />
-            <LogoutButton />
+            {/* <LogoutButton /> */}
+            <Navigation />
 
        </div>
         
