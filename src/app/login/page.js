@@ -14,10 +14,16 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  
 
 
-  const handleLogin = () => {
-    // e.preventDefault();
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Simulate a login process
+    // In a real application, you would send a request to your server here
+    // For demonstration, we'll just check if the email and password are not empty
+    setEmail("");
+    setPassword("");
 
 
 
@@ -78,7 +84,7 @@ const LoginPage = () => {
       <div className="flex flex-row justify-center items-center mt-4">
         <p className="text-black">Don't have an account?</p>
         <button
-          onClick={() => Link.push("/registrasi")}
+          onClick={() => router.push("/registrasi")}
           type="button"
           className="text-blue-500 ml-2 hover:underline hover:cursor-pointer"
         >

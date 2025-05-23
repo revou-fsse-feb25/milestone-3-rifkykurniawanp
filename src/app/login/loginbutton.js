@@ -11,14 +11,15 @@ const LoginButton = () => {
 
 
 
-    useEffect(() => {
-        const isLoggedIn = localStorage.getItem("isLoggedIn");
-        console.log(isLoggedIn);
-        if (isLoggedIn === "true") {
-            setIsLoggedIn(true);
-            console.log("sudah login");
-        }
-    }, []);   
+    // useEffect(() => {
+    //     const isLoggedIn = localStorage.getItem("isLoggedIn");
+    //     console.log(isLoggedIn);
+    //     if (isLoggedIn === "true") {
+    //         setIsLoggedIn(true);
+    //         alert("sudah login");
+    //         console.log("sudah login");
+    //     }
+    // }, []);   
 
     const handleClick = () => {
         if (isLoggedIn === "true") {

@@ -6,9 +6,10 @@ import LogoutButton from "../app/login/logoutbutton";
 
 
 const Header = () => {
+  
   return (
     <header className="flex justify-between items-center bg-gray-200 p-2 sticky top-0">
-       <Image src="/logo.png" alt="logo" width={100} height={100}></Image>
+       <Link href={"/"}><Image src="/logo.png" alt="logo" width={100} height={100}></Image> </Link>
         {/* <Image/> */}
 
 
@@ -17,8 +18,7 @@ const Header = () => {
         </div>
         
        <div className="flex gap-2">
-            <a href="/" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">Home</a>
-            <LoginButton/>
+            <LoginButton />
             <LogoutButton />
 
        </div>
