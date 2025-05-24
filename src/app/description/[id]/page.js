@@ -1,20 +1,34 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation"; // ambil hook ini
 
-export default function Description({ params }) {
-  const { id } = params;
+export default function Description() {
+  const params = useParams(); // ini akan mengembalikan object { id: "..." }
+  const id = params?.id;
+
+  const handleBuyNow = () => {
+  const query = new URLSearchParams({
+    title: product.title,
+    price: product.price.toString(),
+  }).toString();
+
+  window.location.href = `/payment?${query}`;
+};
+
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!id) return; // cegah fetch jika id belum ada
+
     const fetchDataProduct = async () => {
       try {
         setLoading(true);
         const response = await fetch(`https://api.escuelajs.co/api/v1/products/${id}`);
-        const data = await response.json();
         if (!response.ok) throw new Error("Failed to fetch product");
+        const data = await response.json();
         setProduct(data);
         setError(null);
       } catch (err) {
@@ -49,12 +63,10 @@ export default function Description({ params }) {
         <p className="text-xl p-2">Stock: {product.stock}</p>
         <p className="text-xl p-2">{product.description}</p>
         <div className="flex flex-row gap-5 mt-4">
-          <button
-            className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700"
-            onClick={() => (window.location.href = "/payment")}
-          >
+          <button className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700" onClick={() => handleBuyNow()}>
             Buy Now
           </button>
+
           <button className="bg-green-500 text-white p-2 rounded-lg hover:bg-green-700">
             Add to Cart
           </button>

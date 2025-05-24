@@ -12,7 +12,7 @@ const Navigation = () => {
   const isAdmin = session?.user?.role === "admin";
 
   return (
-    <nav className="bg-white border-gray-200 dark:bg-gray-900 p-2 relative z-10 rounded-2xl border-amber-300">
+    <nav className="bg-white dark:bg-gray-900 p-2 relative z-10 rounded-2xl border-amber-300">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
 
         {/* Left Side - Home */}
@@ -58,7 +58,7 @@ const Navigation = () => {
               >
                 <img
                   className="w-8 h-8 rounded-full"
-                  src="/docs/images/people/profile-picture-3.jpg"
+                  src={session.user.avatar}
                   alt="User"
                 />
               </button>
