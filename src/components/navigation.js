@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Navigation = () => {
   const { data: session, status } = useSession();
@@ -10,6 +10,8 @@ const Navigation = () => {
 
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
   const isAdmin = session?.user?.role === "admin";
+  const [userData, setUserData] = useState(null);
+  
 
   return (
     <nav className="bg-white dark:bg-gray-900 p-2 relative z-10 rounded-2xl border-amber-300">
