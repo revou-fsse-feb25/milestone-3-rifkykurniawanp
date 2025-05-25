@@ -48,9 +48,13 @@ export default function Home() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="bg-amber-100">
       <br />
       <SearchBar onSearch={handleSearch} />
+=======
+    <div className="bg-brown-600 color-scheme: dark">
+>>>>>>> main
 
       <main className="flex flex-row flex-wrap gap-2 justify-center items-center min-h-screen p-[8rem]">
         {loading ? (

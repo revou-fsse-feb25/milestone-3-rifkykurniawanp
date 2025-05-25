@@ -1,9 +1,13 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+<<<<<<< HEAD
 import React from "react";
 import Header from "@/components/header";
 import AuthProvider from "@/context/authprovider";
 import { CartItemProvider, CartProvider } from "@/context/cartcontext"; 
+=======
+import Header from "@/components/header/header";
+>>>>>>> main
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +32,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+<<<<<<< HEAD
     
         <AuthProvider>
               <CartItemProvider>
@@ -35,6 +40,16 @@ export default function RootLayout({ children }) {
                   {children} 
               </CartItemProvider>
         </AuthProvider>
+=======
+        {/* <div className="bg-a">
+          <h1 className="text-4xl font-bold text-center p-5">Revo shop</h1>
+        </div> */}
+
+        <Header/>
+
+
+        {children}
+>>>>>>> main
       </body>
     </html>
   );
