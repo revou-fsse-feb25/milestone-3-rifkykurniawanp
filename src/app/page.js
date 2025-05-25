@@ -2,31 +2,29 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import SearchBar from "@/components/searchbar";
-import CartButton from "@/components/cartbutton"; // Adjust the import path as necessary
+import CartButton from "@/components/cartbutton";
 
 export default function Home() {
-  const { data: session, status } = useSession(); // ⬅️ gunakan session
+  const { data: session, status } = useSession();
   const isLoggedIn = status === "authenticated";
 
   const [originalProduct, setOriginalProduct] = useState([]);
   const [product, setProduct] = useState([]);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
+  // Fetch products
   const fetchDataProduct = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const response = await fetch("https://api.escuelajs.co/api/v1/products");
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error("Failed to fetch products");
-      }
+      const res = await fetch("https://api.escuelajs.co/api/v1/products");
+      const data = await res.json();
+      if (!res.ok) throw new Error("Failed to fetch products");
       setOriginalProduct(data);
       setProduct(data);
-      setError(null);
     } catch (err) {
       setError(err.message);
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -36,9 +34,10 @@ export default function Home() {
     fetchDataProduct();
   }, []);
 
+  // Handle search
   const handleSearch = (query) => {
     if (!query) {
-      setProduct(originalProduct);
+      applyFilter(selectedCategory, originalProduct); // reapply current filter
     } else {
       const filtered = originalProduct.filter((item) =>
         item.title.toLowerCase().includes(query.toLowerCase())
@@ -47,62 +46,87 @@ export default function Home() {
     }
   };
 
+  // Filter by category
+  const applyFilter = (category, source = originalProduct) => {
+    if (category === "all") {
+      setProduct(source);
+    } else {
+      const filtered = source.filter(
+        (item) => item.category?.name?.toLowerCase() === category
+      );
+      setProduct(filtered);
+    }
+  };
+
+  const handleCategoryChange = (e) => {
+    const category = e.target.value;
+    setSelectedCategory(category);
+    applyFilter(category);
+  };
+
   return (
-    <div className="bg-amber-100">
+    <div className="bg-amber-100 min-h-screen text-black">
       <br />
       <SearchBar onSearch={handleSearch} />
-    <div className="bg-brown-600 color-scheme: dark">
 
-      <main className="flex flex-row flex-wrap gap-2 justify-center items-center min-h-screen p-[8rem]">
+      {/* Category Filter */}
+      <div className="flex justify-center mb-4">
+        <select
+          onChange={handleCategoryChange}
+          value={selectedCategory}
+          className="px-4 py-2 rounded border border-gray-300 shadow-sm"
+        >
+          <option value="all">All Categories</option>
+          <option value="clothes">Clothes</option>
+          <option value="electronics">Electronics</option>
+          <option value="furniture">Furniture</option>
+          {/* Tambahkan kategori lain jika perlu */}
+        </select>
+      </div>
+
+      <main className="flex flex-wrap gap-6 justify-center p-8">
         {loading ? (
-          <p className="text-center">Loading...</p>
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error: {error}</p>
+        ) : product.length === 0 ? (
+          <p>No products found.</p>
         ) : (
-          product.map((item, index) => (
+          product.map((item) => (
             <section
-              key={index}
-              className="flex flex-col w-[25rem] bg-white shadow-50 rounded-3xl min-h-[50rem] text-black"
+              key={item.id}
+              className="w-[25rem] bg-white shadow-md rounded-3xl p-5 flex flex-col"
             >
               <img
                 src={item?.images?.[0]}
-                className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500"
-                onClick={() =>
-                  (window.location.href = `/description/${item?.id}`)
-                }
+                alt={item?.title}
+                className="rounded-xl hover:scale-105 transition-transform mb-4 cursor-pointer"
+                onClick={() => (window.location.href = `/description/${item?.id}`)}
               />
-              <div className="p-5">
-                <h1 className="text-lg font-bold">{item?.title}</h1>
-                <h3 className="text-xl font-bold">{item?.price}$</h3>
-                <p className="my-3 text-justify">{item?.description}</p>
-                <div className="flex flex-row justify-between">
-                  <div>
-                    <h3 className="text-lg font-bold">Stock</h3>
-                    <p className="text-lg">{item?.stock || 10}</p>
-                  </div>
-
-                  <div className="flex flex-col gap-2">
+              <h1 className="text-lg font-bold">{item?.title}</h1>
+              <h3 className="text-xl font-bold">{item?.price}$</h3>
+              <p className="my-2 text-justify">{item?.description}</p>
+              <div className="flex justify-between mt-auto items-center">
+                <div>
+                  <h3 className="font-bold">Stock</h3>
+                  <p>{item?.stock || 10}</p>
+                </div>
+                <div className="flex flex-col gap-2">
                   <button
-                    className="p-1 rounded-lg bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105 w-[4rem]"
-                    onClick={() =>
-                      (window.location.href = `/description/${item?.id}`)
-                    }
+                    className="bg-emerald-400 hover:bg-emerald-600 text-white px-4 py-1 rounded"
+                    onClick={() => (window.location.href = `/description/${item?.id}`)}
                   >
                     Detail
                   </button>
-
-                  {/* ✅ Tampilkan tombol Add to Cart hanya jika user login */}
-                {isLoggedIn && (
-                  <CartButton
-                    product={{
-                      id: item.id,
-                      price: item.price
-                    }}
-                  />
-                )}
-
-                  </div>
+                  {isLoggedIn && (
+                    <CartButton
+                      product={{
+                        id: item.id,
+                        price: item.price,
+                      }}
+                    />
+                  )}
                 </div>
-
-                
               </div>
             </section>
           ))

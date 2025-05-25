@@ -34,12 +34,18 @@ const AboutPage = () => {
 
       <p className="mt-12 text-center max-w-2xl text-gray-600 dark:text-gray-400">
         Thank you for choosing Revo Shop. We’re committed to providing you with the best online shopping experience—today and always.
+
+        If you have any questions or feedback, feel free to <a href="/contact" className="text-blue-500 hover:underline">contact us</a>.
+        <br />
       </p>
+        <p className="text-center text-gray-500 dark:text-gray-400 mt-4">
+          © {new Date().getFullYear()} Revo Shop. All rights reserved.
+        </p>
+        <br />
+      <FAQ />
+        
     </div>
       </div>
-
-      {/* <FAQ /> */}
-      <FAQ />
 
     </div>
   );
