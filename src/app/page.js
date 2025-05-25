@@ -48,6 +48,7 @@ export default function Home() {
   };
 
   return (
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     <div className="bg-amber-100">
       <br />
@@ -111,6 +112,30 @@ export default function Home() {
           ))
         )}
       </main>
+=======
+    <div className="text-black bg-yellow-50 color-scheme: dark">
+
+          <main className="flex flex-row flex-wrap gap-2 justify-center items-center min-h-screen p-[8rem] ">
+            {product.map ((item, index) => (
+                          <section key={index} className="flex flex-col w-[25rem] bg-amber-50 rounded-3xl min-h-[50rem]">
+                          <img src = {item?.images?.[0]} className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500" onClick={() => window.location.href = `/description/${item?.id}`}/>
+                          <div className="p-5">
+                              <h1 className="text-lg font-bold">{item?.title}</h1>
+                              <h3 className="text-xl font-bold">{item?.price}$</h3>
+                              <p className="my-3 text-justify">{item?.description}</p>
+                              <div className="flex flex-row justify-between">
+                                  <div>
+                                      <h3 className="text-sm font-bold">Stock</h3>
+                                      <p className="text-sm">{item?.stock}</p>
+
+                                  </div>
+                                  <button className="flex flex-col justify-center items-center p-1 rounded-lg text-center w-[4rem] bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105" onClick={() => setCount(count + 1, alert("Item added to cart, you have " + count + " items"))}>Buy</button>
+                              </div>
+                          </div>
+                      </section>
+            ))}
+          </main>
+>>>>>>> Stashed changes
     </div>
   );
 }
