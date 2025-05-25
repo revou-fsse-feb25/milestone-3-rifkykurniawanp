@@ -21,7 +21,7 @@ const CartPage = () => {
             >
               <div>
                 <p className="font-semibold">{item.name}</p>
-                <p className="text-sm text-gray-500">{item.description}</p>
+                <p className="text-sm text-gray-500">{item.descript}</p>
                 <p className="text-lg font-bold">${item.price.toFixed(2)}</p>
               </div>
               <CartButton product={item} />
