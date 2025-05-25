@@ -50,7 +50,18 @@ export default function PaymentPage() {
         <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded">
           Pay Now
         </button>
+        <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+          By proceeding, you agree to our Terms of Service and Privacy Policy.
+        </p>
+        <div className="text-center">
+          <a href="/" className="text-blue-600 hover:underline">
+            Back to Home
+          </a>  
+        </div>
+
       </div>
+
+      
     </div>
   );
 }

@@ -3,6 +3,7 @@ import "./globals.css";
 import React from "react";
 import Header from "@/components/header";
 import AuthProvider from "@/context/authprovider";
+import { CartItemProvider, CartProvider } from "@/context/cartcontext"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,8 +30,10 @@ export default function RootLayout({ children }) {
       >
     
         <AuthProvider>
-              <Header />
-        {children}
+              <CartItemProvider>
+                <Header />
+                  {children} 
+              </CartItemProvider>
         </AuthProvider>
       </body>
     </html>

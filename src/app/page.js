@@ -1,8 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import SearchBar from "@/components/searchbar";
 
 export default function Home() {
+  const { data: session, status } = useSession(); // ⬅️ gunakan session
+  const isLoggedIn = status === "authenticated";
+
   const [originalProduct, setOriginalProduct] = useState([]);
   const [product, setProduct] = useState([]);
   const [error, setError] = useState(null);
@@ -14,15 +18,16 @@ export default function Home() {
       const response = await fetch("https://api.escuelajs.co/api/v1/products");
       const data = await response.json();
       if (!response.ok) {
-        throw new Error("Failed to fetch posts");
+        throw new Error("Failed to fetch products");
       }
-      setOriginalProduct(data); // simpan semua data di sini
-      setProduct(data); // set product juga
+      setOriginalProduct(data);
+      setProduct(data);
       setError(null);
-      setLoading(false);
     } catch (err) {
       setError(err.message);
-      console.log(error);
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -32,7 +37,6 @@ export default function Home() {
 
   const handleSearch = (query) => {
     if (!query) {
-      // Jika query kosong, tampilkan semua data
       setProduct(originalProduct);
     } else {
       const filtered = originalProduct.filter((item) =>
@@ -48,39 +52,58 @@ export default function Home() {
       <SearchBar onSearch={handleSearch} />
 
       <main className="flex flex-row flex-wrap gap-2 justify-center items-center min-h-screen p-[8rem]">
-        {product.map((item, index) => (
-          <section
-            key={index}
-            className="flex flex-col w-[25rem] bg-white shadow-50 rounded-3xl min-h-[50rem] text-black"
-          >
-            <img
-              src={item?.images?.[0]}
-              className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500"
-              onClick={() =>
-                (window.location.href = `/description/${item?.id}`)
-              }
-            />
-            <div className="p-5">
-              <h1 className="text-lg font-bold">{item?.title}</h1>
-              <h3 className="text-xl font-bold">{item?.price}$</h3>
-              <p className="my-3 text-justify">{item?.description}</p>
-              <div className="flex flex-row justify-between">
-                <div>
-                  <h3 className="text-lg font-bold">Stock</h3>
-                  <p className="text-lg">{item?.stock}</p>
+        {loading ? (
+          <p className="text-center">Loading...</p>
+        ) : (
+          product.map((item, index) => (
+            <section
+              key={index}
+              className="flex flex-col w-[25rem] bg-white shadow-50 rounded-3xl min-h-[50rem] text-black"
+            >
+              <img
+                src={item?.images?.[0]}
+                className="rounded-t-3xl hover:scale-105 hover:cursor-pointer transform ease-in-out duration-500"
+                onClick={() =>
+                  (window.location.href = `/description/${item?.id}`)
+                }
+              />
+              <div className="p-5">
+                <h1 className="text-lg font-bold">{item?.title}</h1>
+                <h3 className="text-xl font-bold">{item?.price}$</h3>
+                <p className="my-3 text-justify">{item?.description}</p>
+                <div className="flex flex-row justify-between">
+                  <div>
+                    <h3 className="text-lg font-bold">Stock</h3>
+                    <p className="text-lg">{item?.stock || 10}</p>
+                  </div>
+                  <button
+                    className="p-1 rounded-lg bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105 w-[4rem]"
+                    onClick={() =>
+                      (window.location.href = `/description/${item?.id}`)
+                    }
+                  >
+                    Detail
+                  </button>
                 </div>
-                <button
-                  className="flex flex-col justify-center items-center p-1 rounded-lg text-center w-[4rem] bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105"
-                  onClick={() =>
-                    (window.location.href = `/description/${item?.id}`)
-                  }
-                >
-                  Detail
-                </button>
+
+                {/* ✅ Tampilkan tombol Add to Cart hanya jika user login */}
+                {isLoggedIn && (
+                  <button
+                    className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full"
+                    onClick={() => {
+                      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                      cart.push(item);
+                      localStorage.setItem("cart", JSON.stringify(cart));
+                      alert("Added to cart!");
+                    }}
+                  >
+                    Add to Cart
+                  </button>
+                )}
               </div>
-            </div>
-          </section>
-        ))}
+            </section>
+          ))
+        )}
       </main>
     </div>
   );
