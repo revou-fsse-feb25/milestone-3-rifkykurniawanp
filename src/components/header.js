@@ -1,0 +1,31 @@
+import Link from "next/link";
+import React from "react";
+import Image from "next/image";
+import Navigation from "./navigation";
+
+
+const Header = () => {
+  
+  return (
+    <header className="flex justify-between items-center bg-gray-200 p-2 sticky top-0">
+       <Link href={"/"}><Image src="/logo.png" alt="logo" width={100} height={100}></Image> </Link>
+        {/* <Image/> */}
+
+
+        <div className="sticky top-0 z-50">
+            <h1 className="text-4xl font-bold text-center p-5 bg-a text-yellow-500">Revo shop</h1>
+        </div>
+        
+       <div className="flex gap-2">
+
+            {/* <LogoutButton /> */}
+            <Navigation />
+
+       </div>
+        
+        
+      </header> 
+  );
+}
+
+export default Header;
