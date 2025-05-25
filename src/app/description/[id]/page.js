@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation"; // ambil hook ini
+import CartButton from "@/components/cartbutton"; // pastikan path ini sesuai dengan struktur folder Anda
 
 export default function Description() {
   const params = useParams(); // ini akan mengembalikan object { id: "..." }
@@ -62,14 +63,12 @@ export default function Description() {
         <p className="text-xl p-2">${product.price}</p>
         <p className="text-xl p-2">Stock: {product.stock}</p>
         <p className="text-xl p-2">{product.description}</p>
-        <div className="flex flex-row gap-5 mt-4">
+        <div className="flex flex-row gap-3 mt-4">
           <button className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-700" onClick={() => handleBuyNow()}>
             Buy Now
           </button>
 
-          <button className="bg-green-500 text-white p-2 rounded-lg hover:bg-green-700">
-            Add to Cart
-          </button>
+          <CartButton product={product} />
         </div>
       </div>
     </div>

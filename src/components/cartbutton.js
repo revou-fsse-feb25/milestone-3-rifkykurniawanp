@@ -1,12 +1,20 @@
-// "use client";
+"use client";
+
 import { useSession } from "next-auth/react";
-import { useCartItem } from "@/context/cartcontext"; // Adjust the import path as necessary
-import { ShoppingCart } from "lucide-react"; // Ensure you have lucide-react installed
+import { useCartItem } from "@/context/cartcontext";
+import { ShoppingCart } from "lucide-react";
 import React from "react";
 
 const CartButton = ({ product }) => {
   const { toggleCart, isCartItem, isCustomer } = useCartItem();
   const { data: session, status } = useSession();
+
+  // Jangan render apa pun kalau status masih loading
+  if (status === "loading") return null;
+
+  // Jangan tampilkan tombol kalau belum login atau bukan customer
+  if (!session || !isCustomer) return null;
+
   const isInCart = product ? isCartItem(product.cart_id) : false;
 
   const handleToggleCart = (e) => {
@@ -16,36 +24,10 @@ const CartButton = ({ product }) => {
     toggleCart(product);
   };
 
-  if (status === "loading") {
-    return (
-      <button
-        disabled
-        className="flex items-center gap-2 p-2 rounded-full bg-white/80 dark:bg-zinc-800/80 opacity-50"
-      >
-        <ShoppingCart className="w-6 h-6 stroke-gray-400" />
-        <span className="text-gray-500">Loading...</span>
-      </button>
-    );
-  }
-
-  if (!session || !isCustomer) {
-    return (
-      <button
-        disabled
-        className="flex items-center gap-2 p-2 rounded-full bg-white/80 dark:bg-zinc-800/80 cursor-not-allowed opacity-70"
-      >
-        <ShoppingCart className="w-6 h-6 stroke-gray-400 dark:stroke-gray-500" />
-        <span className="text-gray-500 dark:text-gray-400 font-medium">
-          {!session ? "Login to add cart" : "Customers only"}
-        </span>
-      </button>
-    );
-  }
-
   return (
     <button
       onClick={handleToggleCart}
-      className={`flex items-center gap-2 p-2 rounded-full transition-all duration-200 ${
+      className={`flex items-center gap-2 p-2 rounded-full transition-all duration-200 hover:cursor-pointer ${
         isInCart
           ? "bg-green-50 dark:bg-green-900/20"
           : "bg-white/80 dark:bg-zinc-800/80 hover:bg-gray-100 dark:hover:bg-zinc-700"

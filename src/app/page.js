@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import SearchBar from "@/components/searchbar";
+import CartButton from "@/components/cartbutton"; // Adjust the import path as necessary
 
 export default function Home() {
   const { data: session, status } = useSession(); // ⬅️ gunakan session
@@ -76,6 +77,8 @@ export default function Home() {
                     <h3 className="text-lg font-bold">Stock</h3>
                     <p className="text-lg">{item?.stock || 10}</p>
                   </div>
+
+                  <div className="flex flex-col gap-2">
                   <button
                     className="p-1 rounded-lg bg-emerald-400 hover:bg-emerald-600 hover:cursor-pointer hover:scale-105 w-[4rem]"
                     onClick={() =>
@@ -84,22 +87,21 @@ export default function Home() {
                   >
                     Detail
                   </button>
+
+                  {/* ✅ Tampilkan tombol Add to Cart hanya jika user login */}
+                {isLoggedIn && (
+                  <CartButton
+                    product={{
+                      id: item.id,
+                      price: item.price
+                    }}
+                  />
+                )}
+
+                  </div>
                 </div>
 
-                {/* ✅ Tampilkan tombol Add to Cart hanya jika user login */}
-                {isLoggedIn && (
-                  <button
-                    className="mt-4 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full"
-                    onClick={() => {
-                      const cart = JSON.parse(localStorage.getItem("cart")) || [];
-                      cart.push(item);
-                      localStorage.setItem("cart", JSON.stringify(cart));
-                      alert("Added to cart!");
-                    }}
-                  >
-                    Add to Cart
-                  </button>
-                )}
+                
               </div>
             </section>
           ))
