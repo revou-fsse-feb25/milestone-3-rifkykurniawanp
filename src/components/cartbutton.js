@@ -3,33 +3,58 @@
 import { useSession } from "next-auth/react";
 import { useCartItem } from "@/context/cartcontext";
 import { ShoppingCart } from "lucide-react";
-import React from "react";
+import React, { useMemo } from "react";
 
 const CartButton = ({ product }) => {
-  const { toggleCart, isCartItem, isCustomer } = useCartItem();
+  const { toggleCart, isCartItem, isCustomer, isLoading } = useCartItem();
   const { data: session, status } = useSession();
 
-  // Jangan render apa pun kalau status masih loading
-  if (status === "loading") return null;
+  // Memoize the cart status to prevent unnecessary re-renders
+  const isInCart = useMemo(() => {
+    return product?.cart_id ? isCartItem(product.cart_id) : false;
+  }, [product?.cart_id, isCartItem]);
 
-  // Jangan tampilkan tombol kalau belum login atau bukan customer
-  if (!session || !isCustomer) return null;
+  // Show loading state
+  if (status === "loading" || isLoading) {
+    return (
+      <div className="flex items-center gap-2 p-2 rounded-full bg-gray-100 dark:bg-zinc-800 animate-pulse">
+        <div className="w-6 h-6 bg-gray-300 dark:bg-zinc-600 rounded"></div>
+        <div className="w-20 h-4 bg-gray-300 dark:bg-zinc-600 rounded"></div>
+      </div>
+    );
+  }
 
-  const isInCart = product ? isCartItem(product.cart_id) : false;
+  // Don't show button if not logged in or not a customer
+  if (!session || !isCustomer) {
+    return null;
+  }
+
+  // Don't show button if product is invalid
+  if (!product || !product.cart_id) {
+    console.warn("CartButton: Invalid product or missing cart_id:", product);
+    return null;
+  }
 
   const handleToggleCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!session || !isCustomer || !product) return;
+    
+    // Validate session and product before proceeding
+    if (!session || !isCustomer || !product?.cart_id) {
+      console.warn("Cannot toggle cart: missing requirements");
+      return;
+    }
+    
     toggleCart(product);
   };
 
   return (
     <button
       onClick={handleToggleCart}
-      className={`flex items-center gap-2 p-2 rounded-full transition-all duration-200 hover:cursor-pointer ${
+      disabled={isLoading}
+      className={`flex items-center gap-2 p-2 rounded-full transition-all duration-200 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
         isInCart
-          ? "bg-green-50 dark:bg-green-900/20"
+          ? "bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30"
           : "bg-white/80 dark:bg-zinc-800/80 hover:bg-gray-100 dark:hover:bg-zinc-700"
       }`}
       aria-label={isInCart ? "Remove from cart" : "Add to cart"}

@@ -121,8 +121,14 @@ export default function Home() {
                   {isLoggedIn && (
                     <CartButton
                       product={{
+                        cart_id: item.id, // This is the key fix - using cart_id instead of id
                         id: item.id,
+                        name: item.title, // CartButton expects 'name', not 'title'
+                        descript: item.description, // CartButton expects 'descript'
                         price: item.price,
+                        images: item.images,
+                        stock: item.stock || 10,
+                        category: item.category
                       }}
                     />
                   )}
