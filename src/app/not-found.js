@@ -1,350 +1,159 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Head from 'next/head';
 
 export default function NotFound() {
-  const router = useRouter();
-  const [mounted, setMounted] = useState(false);
+  const [currentTime, setCurrentTime] = useState('--:--:--');
+  const [currentQuote, setCurrentQuote] = useState('');
+  const [isClient, setIsClient] = useState(false);
+
+  const okabeQuotes = [
+    "I am the mad scientist, Hououin Kyouma!",
+    "This is the choice of Steins Gate!",
+    "The Organization is always watching...",
+    "El Psy Kongroo"
+  ];
 
   useEffect(() => {
-    setMounted(true);
-    
-    // Mouse movement parallax effect
-    const handleMouseMove = (e) => {
-      const particles = document.querySelectorAll('.particle');
-      const mouseX = e.clientX / window.innerWidth;
-      const mouseY = e.clientY / window.innerHeight;
-      
-      particles.forEach((particle, index) => {
-        const speed = (index + 1) * 2;
-        const x = mouseX * speed;
-        const y = mouseY * speed;
-        
-        particle.style.transform = `translate(${x}px, ${y}px)`;
-      });
-    };
+    setIsClient(true);
+    setCurrentQuote(okabeQuotes[Math.floor(Math.random() * okabeQuotes.length)]);
+    setCurrentTime(formatTime(new Date()));
 
-    document.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-    };
+    const timeInterval = setInterval(() => {
+      setCurrentTime(formatTime(new Date()));
+    }, 1000);
+
+    return () => clearInterval(timeInterval);
   }, []);
 
-  const handleButtonClick = (e) => {
-    // Create ripple effect
-    const button = e.currentTarget;
-    const ripple = document.createElement('span');
-    const rect = button.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    const x = e.clientX - rect.left - size / 2;
-    const y = e.clientY - rect.top - size / 2;
-    
-    ripple.style.cssText = `
-      position: absolute;
-      width: ${size}px;
-      height: ${size}px;
-      left: ${x}px;
-      top: ${y}px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      transform: scale(0);
-      animation: ripple 0.6s linear;
-      pointer-events: none;
-    `;
-    
-    button.appendChild(ripple);
-    
-    setTimeout(() => {
-      ripple.remove();
-    }, 600);
-
-    // Navigate to home
-    setTimeout(() => {
-      router.push('/');
-    }, 300);
+  const formatTime = (date) => {
+    return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
   };
-
-  if (!mounted) return null;
 
   return (
     <>
-      <style jsx global>{`
-        @keyframes gradientShift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-
-        @keyframes glow {
-          from { text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
-          to { 
-            text-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 
-                         0 0 60px rgba(255, 255, 255, 0.6); 
-          }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
-
-        @keyframes glitch1 {
-          0%, 14%, 15%, 49%, 50%, 99%, 100% {
-            transform: translate(0, 0);
-          }
-          15%, 49% {
-            transform: translate(-2px, 0);
-          }
-        }
-
-        @keyframes glitch2 {
-          0%, 14%, 15%, 49%, 50%, 99%, 100% {
-            transform: translate(0, 0);
-          }
-          15%, 49% {
-            transform: translate(2px, 0);
-          }
-        }
-
-        @keyframes loadingDots {
-          0%, 80%, 100% {
-            transform: scale(0);
-            opacity: 0.5;
-          }
-          40% {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-
-        @keyframes ripple {
-          to {
-            transform: scale(4);
-            opacity: 0;
-          }
-        }
-
-        .not-found-container {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          font-family: 'Arial', sans-serif;
-          background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
-          background-size: 400% 400%;
-          animation: gradientShift 15s ease infinite;
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          z-index: 9999;
-        }
-
-        .container {
-          text-align: center;
-          color: white;
-          z-index: 10;
-          position: relative;
-        }
-
-        .error-code {
-          font-size: 12rem;
-          font-weight: bold;
-          text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-          animation: glow 2s ease-in-out infinite alternate;
-          margin-bottom: 20px;
-          position: relative;
-        }
-
-        .error-message {
-          font-size: 2.5rem;
-          margin-bottom: 10px;
-          animation: fadeInUp 1s ease-out 0.5s both;
-        }
-
-        .error-description {
-          font-size: 1.2rem;
-          margin-bottom: 40px;
-          opacity: 0.9;
-          animation: fadeInUp 1s ease-out 1s both;
-        }
-
-        .btn-home {
-          display: inline-block;
-          padding: 15px 40px;
-          background: rgba(255, 255, 255, 0.2);
-          color: white;
-          text-decoration: none;
-          border-radius: 50px;
-          border: 2px solid rgba(255, 255, 255, 0.3);
-          font-size: 1.1rem;
-          font-weight: 600;
-          transition: all 0.3s ease;
-          backdrop-filter: blur(10px);
-          animation: fadeInUp 1s ease-out 1.5s both;
-          position: relative;
-          overflow: hidden;
-          cursor: pointer;
-        }
-
-        .btn-home:hover {
-          background: rgba(255, 255, 255, 0.3);
-          border-color: rgba(255, 255, 255, 0.5);
-          transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-home::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          transition: left 0.5s;
-        }
-
-        .btn-home:hover::before {
-          left: 100%;
-        }
-
-        .particle {
-          position: absolute;
-          width: 4px;
-          height: 4px;
-          background: rgba(255, 255, 255, 0.8);
-          border-radius: 50%;
-          animation: float 6s ease-in-out infinite;
-        }
-
-        .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .particle:nth-child(2) { top: 40%; left: 90%; animation-delay: 1s; }
-        .particle:nth-child(3) { top: 60%; left: 20%; animation-delay: 2s; }
-        .particle:nth-child(4) { top: 80%; left: 80%; animation-delay: 1.5s; }
-        .particle:nth-child(5) { top: 30%; left: 70%; animation-delay: 0.5s; }
-        .particle:nth-child(6) { top: 70%; left: 30%; animation-delay: 2.5s; }
-
-        .glitch {
-          position: relative;
-        }
-
-        .glitch::before,
-        .glitch::after {
-          content: '404';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          font-size: inherit;
-          font-weight: inherit;
-        }
-
-        .glitch::before {
-          animation: glitch1 2s infinite;
-          color: #ff0040;
-          z-index: -1;
-        }
-
-        .glitch::after {
-          animation: glitch2 2s infinite;
-          color: #00ff80;
-          z-index: -2;
-        }
-
-        .loading-dots {
-          display: inline-block;
-          margin-left: 10px;
-        }
-
-        .loading-dots span {
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.8);
-          margin: 0 2px;
-          animation: loadingDots 1.4s infinite ease-in-out both;
-        }
-
-        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
-
-        @media (max-width: 768px) {
-          .error-code {
-            font-size: 8rem;
-          }
+      <Head>
+        <title>404 - Worldline Error | Steins;Gate</title>
+        <meta name="description" content="Page not found in this worldline" />
+      </Head>
+      
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 flex items-center justify-center px-4">
+        <div className="max-w-2xl mx-auto text-center">
           
-          .error-message {
-            font-size: 2rem;
-          }
-          
-          .error-description {
-            font-size: 1rem;
-            padding: 0 20px;
-          }
-          
-          .btn-home {
-            padding: 12px 30px;
-            font-size: 1rem;
-          }
-        }
+          {/* Steins;Gate Character Illustration */}
+          <div className="mb-8">
+            <div className="relative inline-block">
+              {/* Okabe Illustration using CSS */}
+              <div className="w-48 h-64 mx-auto mb-6 relative">
+                {/* Head */}
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-20 bg-gradient-to-b from-yellow-200 to-yellow-300 rounded-full border-2 border-amber-400">
+                  {/* Hair */}
+                  <div className="absolute -top-2 left-2 w-12 h-8 bg-amber-600 rounded-t-full"></div>
+                  <div className="absolute -top-1 -left-1 w-6 h-10 bg-amber-600 rounded-full transform -rotate-12"></div>
+                  <div className="absolute -top-1 -right-1 w-4 h-8 bg-amber-600 rounded-full transform rotate-12"></div>
+                  {/* Eyes */}
+                  <div className="absolute top-6 left-3 w-2 h-2 bg-amber-800 rounded-full"></div>
+                  <div className="absolute top-6 right-3 w-2 h-2 bg-amber-800 rounded-full"></div>
+                  {/* Mouth */}
+                  <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-4 h-1 bg-amber-700 rounded-full"></div>
+                </div>
+                {/* Lab Coat */}
+                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-24 h-32 bg-white border-2 border-yellow-400 rounded-lg">
+                  <div className="absolute top-2 left-2 right-2 h-4 bg-yellow-100 rounded"></div>
+                  <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-bold text-amber-700">404</div>
+                </div>
+                {/* Arms */}
+                <div className="absolute top-20 left-4 w-4 h-16 bg-white border-2 border-yellow-400 rounded-full transform -rotate-12"></div>
+                <div className="absolute top-20 right-4 w-4 h-16 bg-white border-2 border-yellow-400 rounded-full transform rotate-12"></div>
+                {/* Legs */}
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-x-4 w-6 h-20 bg-amber-800 rounded-full"></div>
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-x-4 w-6 h-20 bg-amber-800 rounded-full"></div>
+              </div>
+            </div>
+          </div>
 
-        @media (max-width: 480px) {
-          .error-code {
-            font-size: 6rem;
-          }
-          
-          .error-message {
-            font-size: 1.5rem;
-          }
-        }
-      `}</style>
+          {/* Main Content */}
+          <div className="bg-white rounded-3xl shadow-2xl p-8 border-4 border-yellow-400">
+            
+            {/* 404 Title */}
+            <h1 className="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-yellow-600 mb-4">
+              404
+            </h1>
+            
+            {/* Steins;Gate Logo */}
+            <div className="mb-6">
+              <h2 className="text-2xl font-bold text-amber-700 mb-2 font-mono tracking-wider">
+                STEINS;GATE
+              </h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-yellow-500 mx-auto rounded-full"></div>
+            </div>
 
-      <div className="not-found-container">
-        {/* Floating particles */}
-        <div className="particle"></div>
-        <div className="particle"></div>
-        <div className="particle"></div>
-        <div className="particle"></div>
-        <div className="particle"></div>
-        <div className="particle"></div>
+            {/* Divergence Meter */}
+            <div className="bg-amber-50 border-2 border-amber-300 rounded-xl p-4 mb-6 max-w-sm mx-auto">
+              <div className="text-amber-600 text-xs font-mono mb-1">WORLDLINE DIVERGENCE</div>
+              <div className="text-amber-800 text-xl font-bold font-mono tracking-wider">1.130426%</div>
+              <div className="text-amber-600 text-xs font-mono mt-1">TIME: {currentTime}</div>
+            </div>
 
-        <div className="container">
-          <div className="error-code glitch">404</div>
-          <h1 className="error-message">Oops! Page Not Found</h1>
-          <p className="error-description">
-            The page you're looking for seems to have vanished into the digital void.
-            <span className="loading-dots">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </p>
-          <button className="btn-home" onClick={handleButtonClick}>
-            Take Me Home
-          </button>
+            {/* Error Message */}
+            <div className="mb-6">
+              <h3 className="text-2xl font-bold text-amber-800 mb-3">
+                Worldline Error Detected
+              </h3>
+              <p className="text-amber-700 text-lg mb-4">
+                The page you're looking for exists in a different timeline.
+              </p>
+            </div>
+
+            {/* Quote */}
+            {currentQuote && (
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 italic">
+                <p className="text-amber-800 text-lg">"{currentQuote}"</p>
+                <p className="text-amber-600 text-sm mt-2 text-right">- Okabe Rintaro</p>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/">
+                <button className="px-8 py-3 bg-gradient-to-r from-amber-400 to-yellow-500 text-white font-bold rounded-full hover:from-amber-500 hover:to-yellow-600 transform hover:scale-105 transition-all duration-300 shadow-lg">
+                  🏠 Return to Alpha Worldline
+                </button>
+              </Link>
+              
+              <button 
+                onClick={() => window.history.back()}
+                className="px-8 py-3 bg-transparent border-2 border-amber-400 text-amber-700 font-bold rounded-full hover:bg-amber-50 transform hover:scale-105 transition-all duration-300"
+              >
+                ⏪ Go Back
+              </button>
+            </div>
+
+            {/* Footer */}
+            <div className="mt-6 text-amber-600 text-sm">
+              El Psy Kongroo 🔬
+            </div>
+          </div>
+
+          {/* Floating Elements */}
+          <div className="absolute top-10 left-10 text-2xl opacity-30 animate-bounce">⚗️</div>
+          <div className="absolute top-20 right-10 text-2xl opacity-30 animate-bounce" style={{animationDelay: '1s'}}>🧪</div>
+          <div className="absolute bottom-20 left-10 text-2xl opacity-30 animate-bounce" style={{animationDelay: '2s'}}>📡</div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-fade-in {
+          animation: fadeIn 0.8s ease-out;
+        }
+      `}</style>
     </>
   );
 }
