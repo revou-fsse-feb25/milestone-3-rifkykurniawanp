@@ -18,6 +18,11 @@ export default function Description() {
   const handleBuyNow = () => {
     if (!product) return;
     
+   if (session?.user?.role !== "customer") {
+    alert("Only customers are allowed to make purchases.");
+    return;
+  }
+
     const query = new URLSearchParams({
       title: product.title,
       price: product.price.toString(),
@@ -177,6 +182,7 @@ export default function Description() {
                 {/* Action Buttons */}
                 <div className="flex flex-col sm:flex-row gap-3 pt-6">
                   <button 
+                    
                     onClick={handleBuyNow}
                     className="flex-1 bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors font-medium"
                   >
