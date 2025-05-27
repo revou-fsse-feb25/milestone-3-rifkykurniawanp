@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { DollarSign, Users, Package } from 'lucide-react';
-import StatsCard from '../dashboard/statscard';
+// import StatsCard from '../dashboard/statscard';
 import NavigationTabs from './navigationtabs';
 import OverviewTab from './overviewtab';
 import UsersTab from './userstab';
