@@ -54,7 +54,7 @@ export default function AdminDashboard() {
       ]);
 
       setUsers(usersData.slice(0, 20)); 
-      setProducts(productsData.slice(0, 20)); 
+      setProducts(productsData.slice(0, 50)); 
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {

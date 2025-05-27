@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+import React from 'react';
 
 export default function NotFound() {
   const [currentTime, setCurrentTime] = useState('--:--:--');
@@ -42,38 +43,6 @@ export default function NotFound() {
       <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 flex items-center justify-center px-4">
         <div className="max-w-2xl mx-auto text-center">
           
-          {/* Steins;Gate Character Illustration */}
-          <div className="mb-8">
-            <div className="relative inline-block">
-              {/* Okabe Illustration using CSS */}
-              <div className="w-48 h-64 mx-auto mb-6 relative">
-                {/* Head */}
-                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-20 bg-gradient-to-b from-yellow-200 to-yellow-300 rounded-full border-2 border-amber-400">
-                  {/* Hair */}
-                  <div className="absolute -top-2 left-2 w-12 h-8 bg-amber-600 rounded-t-full"></div>
-                  <div className="absolute -top-1 -left-1 w-6 h-10 bg-amber-600 rounded-full transform -rotate-12"></div>
-                  <div className="absolute -top-1 -right-1 w-4 h-8 bg-amber-600 rounded-full transform rotate-12"></div>
-                  {/* Eyes */}
-                  <div className="absolute top-6 left-3 w-2 h-2 bg-amber-800 rounded-full"></div>
-                  <div className="absolute top-6 right-3 w-2 h-2 bg-amber-800 rounded-full"></div>
-                  {/* Mouth */}
-                  <div className="absolute top-10 left-1/2 transform -translate-x-1/2 w-4 h-1 bg-amber-700 rounded-full"></div>
-                </div>
-                {/* Lab Coat */}
-                <div className="absolute top-16 left-1/2 transform -translate-x-1/2 w-24 h-32 bg-white border-2 border-yellow-400 rounded-lg">
-                  <div className="absolute top-2 left-2 right-2 h-4 bg-yellow-100 rounded"></div>
-                  <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-bold text-amber-700">404</div>
-                </div>
-                {/* Arms */}
-                <div className="absolute top-20 left-4 w-4 h-16 bg-white border-2 border-yellow-400 rounded-full transform -rotate-12"></div>
-                <div className="absolute top-20 right-4 w-4 h-16 bg-white border-2 border-yellow-400 rounded-full transform rotate-12"></div>
-                {/* Legs */}
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 -translate-x-4 w-6 h-20 bg-amber-800 rounded-full"></div>
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-x-4 w-6 h-20 bg-amber-800 rounded-full"></div>
-              </div>
-            </div>
-          </div>
-
           {/* Main Content */}
           <div className="bg-white rounded-3xl shadow-2xl p-8 border-4 border-yellow-400">
             
