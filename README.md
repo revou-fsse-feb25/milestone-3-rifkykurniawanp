@@ -1,36 +1,95 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Here's a professional and clear `README.md` you can use for your shopping project:
 
-## Getting Started
+---
 
-First, run the development server:
+# 🛍️ Revo Shop
+
+A modern e-commerce application built with **JavaScript**, **Tailwind CSS**, and **React Context API**, supporting **authentication**, **category-based search**, **admin dashboard for CRUD**, and **user-only purchase flow**.
+Deployed on **Vercel**:
+👉 [Live Demo](https://milestone-3-rifkykurniawanp-m7ioi01va-rifkykurniawanps-projects.vercel.app/)
+
+---
+
+## ✨ Features
+
+### 🌐 General
+
+* Built using **JavaScript**
+* Styled with **Tailwind CSS**
+* State management via **Context API**
+* Authentication with **NextAuth.js**
+* Unit testing with **Jest**
+
+### 🔍 User Features
+
+* Login as **User** or **Admin**
+* **Search products** with real-time **category filters**
+* **Add to cart**, **make payments**, and **buy products** (Users only)
+* **User Settings** page for profile management
+
+### 🛠️ Admin Features
+
+* Admin-only access to **Dashboard**
+* Full **CRUD** operations for:
+
+  * Products
+  * Users
+
+---
+
+## 🔑 User Roles
+
+| Role  | Permissions                                         |
+| ----- | --------------------------------------------------- |
+| Admin | Access dashboard, manage users/products (CRUD)      |
+| User  | Search, filter, buy, add to cart, and make payments |
+
+---
+
+## 🚀 Deployment
+
+This app is deployed using **Vercel**.
+🔗 [Click here to view the live version](https://milestone-3-rifkykurniawanp-m7ioi01va-rifkykurniawanps-projects.vercel.app/)
+
+---
+
+## 🧪 Testing
+
+* Unit tests written in **Jest**
+* Run tests with:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🛠️ Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **Frontend:** JavaScript, React, Tailwind CSS
+* **State Management:** React Context API
+* **Authentication:** NextAuth.js
+* **Testing:** Jest
+* **Deployment:** Vercel
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📂 Project Structure (simplified)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+/components       → Reusable UI components  
+/pages            → Next.js pages (auth, home, dashboard, etc.)  
+/context          → Global state management (cart, auth)  
+/utils            → Helper functions  
+/__tests__        → Unit tests using Jest  
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📝 License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project is licensed under the MIT License.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+Let me know if you'd like a section for installation instructions, environment variables, or contribution guidelines!
