@@ -1,7 +1,3 @@
-Here's a professional and clear `README.md` you can use for your shopping project:
-
----
-
 # 🛍️ Revo Shop
 
 A modern e-commerce application built with **JavaScript**, **Tailwind CSS**, and **React Context API**, supporting **authentication**, **category-based search**, **admin dashboard for CRUD**, and **user-only purchase flow**.
