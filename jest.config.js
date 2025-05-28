@@ -18,7 +18,6 @@ const config = {
     "^@/lib/(.*)$": "<rootDir>/src/lib/$1",
     "^@/app/(.*)$": "<rootDir>/src/app/$1",
   },
-  preset: "js-jest",
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
