@@ -73,19 +73,3 @@ npm run test
 ## 📂 Project Structure (simplified)
 
 ```
-/components       → Reusable UI components  
-/pages            → Next.js pages (auth, home, dashboard, etc.)  
-/context          → Global state management (cart, auth)  
-/utils            → Helper functions  
-/__tests__        → Unit tests using Jest  
-```
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
----
-
-Let me know if you'd like a section for installation instructions, environment variables, or contribution guidelines!
