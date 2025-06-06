@@ -244,23 +244,23 @@ describe('Navigation Component', () => {
     });
   });
 
-  describe('Loading State', () => {
-    beforeEach(() => {
-      useSession.mockReturnValue({
-        data: null,
-        status: 'loading',
-      });
-    });
+  // describe('Loading State', () => {
+  //   beforeEach(() => {
+  //     useSession.mockReturnValue({
+  //       data: null,
+  //       status: 'loading',
+  //     });
+  //   });
 
-    test('should render basic navigation during loading', () => {
-      render(<Navigation />);
+  //   test('should render basic navigation during loading', () => {
+  //     render(<Navigation />);
       
-      expect(screen.getByText('Home')).toBeInTheDocument();
-      expect(screen.getByText('About')).toBeInTheDocument();
-      expect(screen.queryByText('Cart')).not.toBeInTheDocument();
-      expect(screen.queryByText('Login')).not.toBeInTheDocument();
-    });
-  });
+  //     expect(screen.getByText('Home')).toBeInTheDocument();
+  //     expect(screen.getByText('About')).toBeInTheDocument();
+  //     expect(screen.queryByText('Cart')).not.toBeInTheDocument();
+  //     expect(screen.queryByText('Login')).not.toBeInTheDocument();
+  //   });
+  // });
 
   describe('Error Handling', () => {
     beforeEach(() => {

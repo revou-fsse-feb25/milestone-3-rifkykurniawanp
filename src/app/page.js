@@ -9,6 +9,7 @@ export default function Home() {
   const isLoggedIn = status === "authenticated";
 
   const [originalProduct, setOriginalProduct] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,8 +31,25 @@ export default function Home() {
     }
   };
 
+  // Fetch categories - Fixed version
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch("https://api.escuelajs.co/api/v1/categories");
+      if (!res.ok) throw new Error("Failed to fetch categories");
+      
+      const data = await res.json();
+      setCategories(data);
+      return data;
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+      setCategories([]);
+      return [];
+    }
+  };
+
   useEffect(() => {
     fetchDataProduct();
+    fetchCategories();
   }, []);
 
   // Handle search
@@ -52,7 +70,7 @@ export default function Home() {
       setProduct(source);
     } else {
       const filtered = source.filter(
-        (item) => item.category?.name?.toLowerCase() === category
+        (item) => item.category?.name?.toLowerCase() === category.toLowerCase()
       );
       setProduct(filtered);
     }
@@ -77,10 +95,11 @@ export default function Home() {
           className="px-4 py-2 rounded border border-gray-300 shadow-sm"
         >
           <option value="all">All Categories</option>
-          <option value="clothes">Clothes</option>
-          <option value="electronics">Electronics</option>
-          <option value="furniture">Furniture</option>
-          {/* Tambahkan kategori lain jika perlu */}
+          {categories.map((category) => (
+            <option key={category.id} value={category.name}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -121,10 +140,10 @@ export default function Home() {
                   {isLoggedIn && (
                     <CartButton
                       product={{
-                        cart_id: item.id, // This is the key fix - using cart_id instead of id
+                        cart_id: item.id,
                         id: item.id,
-                        name: item.title, // CartButton expects 'name', not 'title'
-                        descript: item.description, // CartButton expects 'descript'
+                        name: item.title,
+                        descript: item.description,
                         price: item.price,
                         images: item.images,
                         stock: item.stock || 10,

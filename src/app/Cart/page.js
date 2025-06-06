@@ -6,7 +6,7 @@ import { useCartItem } from "@/context/cartcontext";
 import CartButton from "@/components/cartbutton";
 
 const CartPage = () => {
-  const { cartItems, numberOfCartItems, isLoading, isCustomer } = useCartItem();
+  const { cartItems, numberOfCartItems, isLoading, isCustomer, updateCartQuantity, removeFromCart } = useCartItem();
   const router = useRouter();
 
   const handleCheckout = () => {
@@ -20,7 +20,50 @@ const CartPage = () => {
   };
 
   const calculateTotal = () => {
-    return cartItems.reduce((total, item) => total + (item.price || 0), 0);
+    return cartItems.reduce((total, item) => total + (item.price || 0) * (item.quantity || 1), 0);
+  };
+
+  const handleQuantityChange = (cartId, newQuantity, maxStock) => {
+    if (newQuantity <= 0) {
+      removeFromCart(cartId);
+    } else if (newQuantity <= maxStock) {
+      updateCartQuantity(cartId, newQuantity);
+    }
+  };
+
+  const QuantityControls = ({ item }) => {
+    const currentQuantity = item.quantity || 1;
+    const maxStock = item.stock || 999; // Default to 999 if stock not specified
+    
+    return (
+      <div className="flex items-center space-x-3">
+        <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
+          <button
+            onClick={() => handleQuantityChange(item.cart_id, currentQuantity - 1, maxStock)}
+            className="px-3 py-1 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-l-lg transition-colors"
+            disabled={currentQuantity <= 1}
+          >
+            -
+          </button>
+          <span className="px-4 py-1 text-center min-w-[50px] text-gray-900 dark:text-white">
+            {currentQuantity}
+          </span>
+          <button
+            onClick={() => handleQuantityChange(item.cart_id, currentQuantity + 1, maxStock)}
+            className="px-3 py-1 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-r-lg transition-colors"
+            disabled={currentQuantity >= maxStock}
+          >
+            +
+          </button>
+        </div>
+        <button
+          onClick={() => removeFromCart(item.cart_id)}
+          className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 text-sm font-medium transition-colors"
+        >
+          Remove
+        </button>
+      </div>
+    );
   };
 
   if (isLoading) {
@@ -130,11 +173,41 @@ const CartPage = () => {
                             <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 line-clamp-2">
                               {item.descript}
                             </p>
-                            <div className="flex items-center justify-between">
-                              <span className="text-xl font-bold text-green-600 dark:text-green-400">
-                                ${item.price?.toFixed(2) || '0.00'}
+                            
+                            {/* Stock Status */}
+                            <div className="flex items-center space-x-2 mb-3">
+                              <span className="text-sm text-gray-500 dark:text-gray-400">
+                                Stock: {item.stock || 'N/A'}
                               </span>
-                              <CartButton product={item} />
+                              {item.stock && item.stock <= 5 && (
+                                <span className="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-full">
+                                  Low Stock
+                                </span>
+                              )}
+                            </div>
+                            
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-4">
+                                <span className="text-xl font-bold text-green-600 dark:text-green-400">
+                                  ${item.price?.toFixed(2) || '0.00'}
+                                </span>
+                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                  × {item.quantity || 1}
+                                </span>
+                                <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                                  = ${((item.price || 0) * (item.quantity || 1)).toFixed(2)}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            {/* Quantity Controls */}
+                            <div className="mt-4 flex items-center justify-between">
+                              <QuantityControls item={item} />
+                              {item.quantity && item.stock && item.quantity >= item.stock && (
+                                <span className="text-sm text-orange-600 dark:text-orange-400">
+                                  Max quantity reached
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -177,7 +250,8 @@ const CartPage = () => {
                   
                   <button
                     onClick={handleCheckout}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg mt-6 transition-colors"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg mt-6 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    disabled={numberOfCartItems === 0}
                   >
                     Proceed to Checkout
                   </button>
